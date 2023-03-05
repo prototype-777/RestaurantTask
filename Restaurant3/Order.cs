@@ -1,34 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Restaurant
 {
     public class Order
     {
-        public static int id;
-        public List<Item> items;
+        private int Id { get; set; }
+        public List<Item> Items { get; set; }
 
-        public Order() 
+        public Order(int id) 
         {
-            id++;
-            items = new List<Item>();
+            Id = id;
+            Items = new List<Item>();
         }
 
-        public void Add(ItemType type, string title, int quantity, string dateTime = null) 
+        public void Add(int id, Product prod, int quantity, TimeSpan? dateTime = null) 
         {
-            items.Add(new Item(new Product(type, title), quantity, dateTime));
+            Items.Add(new Item(id, prod, quantity, dateTime));
         }
 
-        public void Remove(ItemType type, string title, int quantity, string dateTime = null)
+        public void Remove(int id, int quantity)
         {
-            for (int i = 0; i < quantity; i++)
+            var itemToUpdate = Items.Where(x => x.Id == id).FirstOrDefault();
+            
+            if (itemToUpdate == null) 
             {
-                foreach (Item item in items)
-                {
-                    if (item.poduct.type == type)
-                    {
-                        item.quantity--;
-                    }
-                }
+                throw new ArgumentNullException(id.ToString());
+            }
+            
+            itemToUpdate.Quantity -= quantity;
+            
+            if (itemToUpdate.Quantity < 1) 
+            {
+                Items.Remove(itemToUpdate);
             }
         }
     }

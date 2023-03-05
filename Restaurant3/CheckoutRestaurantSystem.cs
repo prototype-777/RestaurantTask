@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Restaurant
 {
@@ -11,24 +10,23 @@ namespace Restaurant
             var mains = 0m;
             var drinks = 0m;
 
-            foreach (Item item in order.items)
+            foreach (Item item in order.Items)
             {
-                switch (item.poduct.type)
+                switch (item.Poduct.Type)
                 {
                     case ItemType.Starter:
                     {
-                        starters += item.quantity * PricesAndDiscounts.StarterPrice;
+                        starters += item.Quantity * PricesAndDiscounts.StarterPrice;
                         break;
                     }
                     case ItemType.Main:
                     {
-                        mains += item.quantity * PricesAndDiscounts.MainPrice;
+                        mains += item.Quantity * PricesAndDiscounts.MainPrice;
                         break;
                     }
                     case ItemType.Drink:
                     {
-                        drinks += item.quantity * 
-                            (string.IsNullOrEmpty(item.time) || TimeSpan.Parse(item.time) >= TimeSpan.Parse(PricesAndDiscounts.DiscountTime)
+                        drinks += item.Quantity * (!item.Time.HasValue || item.Time >= PricesAndDiscounts.DiscountTime
                                 ? PricesAndDiscounts.DrinkPrice
                                 : PricesAndDiscounts.DrinkPrice * (1 - PricesAndDiscounts.Discount));
                         break;
@@ -47,16 +45,30 @@ namespace Restaurant
             var drinksQuantity = 0m;
             var discountDrinksQuantity = 0m;
 
-            order.items.Where(x => x.poduct.type == ItemType.Starter).ToList().ForEach(l => startersQuantity += l.quantity);
-            order.items.Where(x => x.poduct.type == ItemType.Main).ToList().ForEach(l => mainsQuantity += l.quantity);
+            order.Items
+                .Where(x => x.Poduct.Type == ItemType.Starter)
+                .ToList()
+                .ForEach(l => startersQuantity += l.Quantity);
+
+            order.Items
+                .Where(x => x.Poduct.Type == ItemType.Main)
+                .ToList()
+                .ForEach(l => mainsQuantity += l.Quantity);
             
-            order.items.Where(x => x.poduct.type == ItemType.Drink)
-                .Where(l => string.IsNullOrEmpty(l.time) || TimeSpan.Parse(l.time) >= TimeSpan.Parse(PricesAndDiscounts.DiscountTime))
-                .ToList().ForEach(l => drinksQuantity += l.quantity);
-            
-            order.items.Where(x => x.poduct.type == ItemType.Drink)
-                .Where(l => !string.IsNullOrEmpty(l.time) && TimeSpan.Parse(l.time) < TimeSpan.Parse(PricesAndDiscounts.DiscountTime))
-                .ToList().ForEach(l => discountDrinksQuantity += l.quantity);
+            order.Items
+                .Where(x => x.Poduct.Type == ItemType.Drink)
+                .ToList()
+                .ForEach(l =>
+                {
+                    if (l.Time.HasValue && l.Time < PricesAndDiscounts.DiscountTime)
+                    {
+                        discountDrinksQuantity += l.Quantity;
+                    } 
+                    else if (!l.Time.HasValue || l.Time >= PricesAndDiscounts.DiscountTime) 
+                    {
+                        drinksQuantity += l.Quantity;
+                    }
+                });
 
             var food = startersQuantity * PricesAndDiscounts.StarterPrice + mainsQuantity * PricesAndDiscounts.MainPrice;
             var drinks = drinksQuantity * PricesAndDiscounts.DrinkPrice + discountDrinksQuantity * PricesAndDiscounts.DrinkPrice * (1 - PricesAndDiscounts.Discount);

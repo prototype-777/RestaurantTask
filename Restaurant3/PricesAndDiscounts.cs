@@ -1,12 +1,14 @@
-﻿namespace Restaurant
+﻿using System;
+
+namespace Restaurant
 {
-    public static class PricesAndDiscounts
+    public class PricesAndDiscounts
     {
-        public static readonly decimal StarterPrice = 4.00m;
-        public static readonly decimal MainPrice = 7.00m;
-        public static readonly decimal DrinkPrice = 2.50m;
-        public static readonly decimal ServiceCharge = 0.10m;
-        public static readonly decimal Discount = 0.3m;
-        public static readonly string DiscountTime = "19:00:00";
+        public const decimal StarterPrice = 4.00m;
+        public const decimal MainPrice = 7.00m;
+        public const decimal DrinkPrice = 2.50m;
+        public const decimal ServiceCharge = 0.10m;
+        public const decimal Discount = 0.3m;
+        public static readonly TimeSpan DiscountTime = TimeSpan.Parse("19:00:00");
     }
 }

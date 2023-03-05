@@ -1,18 +1,20 @@
-﻿namespace Restaurant
+﻿using System;
+
+namespace Restaurant
 {
     public class Item
     {
-        public static int id;
-        public Product poduct;
-        public int quantity;
-        public string time;
+        public int Id { get; }
+        public Product Poduct { get; set; }
+        public int Quantity { get; set; }
+        public TimeSpan? Time { get; set; }
 
-        public Item(Product poduct, int quantity, string time) 
+        public Item(int id, Product poduct, int quantity, TimeSpan? time) 
         {
-            id++;
-            this.poduct = poduct;
-            this.quantity = quantity;
-            this.time = time;
+            Id = id;
+            Poduct = poduct;
+            Quantity = quantity;
+            Time = time;
         }
     }
 }

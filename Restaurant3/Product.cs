@@ -2,15 +2,15 @@
 {
     public class Product
     {
-        public static int id;
-        public string title;
-        public ItemType type;
+        private int Id { get; set; }
+        public string Title { get; set; }
+        public ItemType Type { get; set; }
 
-        public Product(ItemType type, string title) 
+        public Product(int id, ItemType type, string title)
         {
-            id++;
-            this.type = type;
-            this.title = title;
+            Id = id;
+            Title = title;
+            Type = type;
         }
     }
 }

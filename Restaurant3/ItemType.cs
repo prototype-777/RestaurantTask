@@ -2,6 +2,6 @@
 {
     public enum ItemType
     {
-        Starter, Main, Drink
+        Starter=1, Main=2, Drink=3
     }
 }
