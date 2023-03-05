@@ -38,7 +38,7 @@ namespace Restaurant
             return total;
         }
 
-        public string GenerateBill(Order order)
+        public Bill GenerateBill(Order order)
         {
             var startersQuantity = 0m;
             var mainsQuantity = 0m;
@@ -54,7 +54,7 @@ namespace Restaurant
                 .Where(x => x.Poduct.Type == ItemType.Main)
                 .ToList()
                 .ForEach(l => mainsQuantity += l.Quantity);
-            
+
             order.Items
                 .Where(x => x.Poduct.Type == ItemType.Drink)
                 .ToList()
@@ -63,8 +63,8 @@ namespace Restaurant
                     if (l.Time.HasValue && l.Time < PricesAndDiscounts.DiscountTime)
                     {
                         discountDrinksQuantity += l.Quantity;
-                    } 
-                    else if (!l.Time.HasValue || l.Time >= PricesAndDiscounts.DiscountTime) 
+                    }
+                    else if (!l.Time.HasValue || l.Time >= PricesAndDiscounts.DiscountTime)
                     {
                         drinksQuantity += l.Quantity;
                     }
@@ -76,15 +76,13 @@ namespace Restaurant
             var serviceCharge = food * PricesAndDiscounts.ServiceCharge;
             var total = subtotal + serviceCharge;
 
-            string bill = $"Starters ({startersQuantity} * {PricesAndDiscounts.StarterPrice:C}): {startersQuantity * PricesAndDiscounts.StarterPrice:C}\n" +
-                $"Mains ({mainsQuantity} * {PricesAndDiscounts.MainPrice:C}): {mainsQuantity * PricesAndDiscounts.MainPrice:C}\n" +
-                $"Drinks ({drinksQuantity} * {PricesAndDiscounts.DrinkPrice:C}):\t{drinksQuantity * PricesAndDiscounts.DrinkPrice:C}\n\n" +
-                $"DiscountedDrinks ({discountDrinksQuantity} * {(1 - PricesAndDiscounts.Discount) * PricesAndDiscounts.DrinkPrice:C}):\t{discountDrinksQuantity * (1 - PricesAndDiscounts.Discount) * PricesAndDiscounts.DrinkPrice:C}\n\n" +
-                $"Subtotal: {subtotal:C}\n" +
-                $"Service Charge ({PricesAndDiscounts.ServiceCharge:P}): {serviceCharge:C}\n" +
-                $"Total: {total:C}";
-
-            return bill;
+            return new Bill(startersQuantity,
+                mainsQuantity,
+                drinksQuantity,
+                discountDrinksQuantity,
+                subtotal,
+                serviceCharge,
+                total);
         }
     }
 }
