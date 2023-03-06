@@ -1,5 +1,9 @@
 ﻿namespace Restaurant
 {
+    /// <summary>
+    /// Represents kinds of dish/drinks that could be serve.
+    /// e.g. "Red dry wine", "Jack Daniels" that both has type Drinks.
+    /// </summary>
     public class Product
     {
         private int Id { get; set; }

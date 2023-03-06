@@ -1,5 +1,8 @@
 ﻿namespace Restaurant
 {
+    /// <summary>
+    /// Useed to store all information related to specific Order
+    /// </summary>
     public class Bill
     {
         public decimal StartersQuantity { get; set; }
@@ -21,6 +24,10 @@
             Total = total;
         }
 
+        /// <summary>
+        /// Generate detailed, formated text representation of Bill.
+        /// </summary>
+        /// <returns>string type</returns>
         public override string ToString() 
         {
             return $"Starters ({StartersQuantity} * {PricesAndDiscounts.StarterPrice:C}): {StartersQuantity * PricesAndDiscounts.StarterPrice:C}\n" +

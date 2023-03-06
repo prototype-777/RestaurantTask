@@ -2,6 +2,9 @@
 
 namespace Restaurant
 {
+    /// <summary>
+    /// Price, discound information storage 
+    /// </summary>
     public class PricesAndDiscounts
     {
         public const decimal StarterPrice = 4.00m;

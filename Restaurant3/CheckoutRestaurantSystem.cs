@@ -4,6 +4,11 @@ namespace Restaurant
 {
     public class CheckoutRestaurantSystem
     {
+        /// <summary>
+        /// Calculate total anount of certain order.
+        /// </summary>
+        /// <param name="order">Order type</param>
+        /// <returns>decimal type</returns>
         public decimal CalculateTotal(Order order)
         {
             var starters = 0m;
@@ -38,6 +43,12 @@ namespace Restaurant
             return total;
         }
 
+        /// <summary>
+        /// Generate detailed information aboud certain order.
+        /// Contain: Quantity, Service Charge, Drink discount, Subtotal and Total. 
+        /// </summary>
+        /// <param name="order">Order type</param>
+        /// <returns>Bill type</returns>
         public Bill GenerateBill(Order order)
         {
             var startersQuantity = 0m;

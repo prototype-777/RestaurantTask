@@ -2,6 +2,10 @@
 
 namespace Restaurant
 {
+    /// <summary>
+    /// Represent info about quantity, time and the product that orederd.
+    /// e.g. 3 Beers that oredered at 18:50
+    /// </summary>
     public class Item
     {
         public int Id { get; }
